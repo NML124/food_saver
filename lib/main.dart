@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:food_saver/model/seller.dart';
+import 'package:food_saver/screens/dish/add_dish_screen.dart';
 import 'package:food_saver/screens/seller/home.dart';
 
 void main() {
@@ -32,14 +33,7 @@ class MyApp extends StatelessWidget {
         // tested with just a hot reload.
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
-      home: HomeSellerScreen(
-        seller: SellerModel.fromMap({
-          "name": "PizzaIn",
-          "localisation": "RSET",
-          "image": "null",
-          "phoneNumber": "+917356965939",
-        }),
-      ),
+      home: AddDishScreen(),
     );
   }
 }
