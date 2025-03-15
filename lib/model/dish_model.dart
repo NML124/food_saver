@@ -4,6 +4,7 @@ class DishModel {
   double price;
   String description;
   String category;
+  String sellerdId;
 
   DishModel({
     required this.image,
@@ -11,6 +12,7 @@ class DishModel {
     required this.price,
     required this.description,
     required this.category,
+    this.sellerdId=""
   });
 
   factory DishModel.fromMap(Map<String, dynamic> map) {
@@ -20,6 +22,7 @@ class DishModel {
       price: map['price'],
       description: map['description'],
       category: map['category'],
+      sellerdId: map['seller_id']
     );
   }
 
@@ -30,6 +33,7 @@ class DishModel {
       'price': price,
       'description': description,
       'category': category,
+      'seller_id':sellerdId
     };
   }
 }

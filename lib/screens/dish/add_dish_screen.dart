@@ -1,6 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:food_saver/lib/constant.dart';
+import 'package:food_saver/util/constant.dart';
 import 'package:material_text_fields/material_text_fields.dart';
 import 'package:material_text_fields/utils/form_validation.dart';
 

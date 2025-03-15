@@ -1,7 +1,7 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:food_saver/model/dish_model.dart';
-import 'package:food_saver/model/seller.dart';
+import 'package:food_saver/model/seller_model.dart';
 import 'package:food_saver/screens/seller/components/card_dish.dart';
 
 class HomeSellerScreen extends StatefulWidget {

@@ -1,6 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:food_saver/lib/constant.dart';
+import 'package:food_saver/util/constant.dart';
 import 'package:food_saver/model/dish_model.dart';
 import 'package:material_text_fields/material_text_fields.dart';
 import 'package:material_text_fields/utils/form_validation.dart';
@@ -19,17 +19,15 @@ class _ModifyDishScreenState extends State<ModifyDishScreen> {
   TextEditingController categoryController = TextEditingController();
   String? selectedCategory;
   double heightMaterialUI = 90;
-
-
-  
   @override
   void initState() {
-    nameController.text=widget.dish.name;
-    priceController.text=widget.dish.price.toString();
-    descriptionController.text=widget.dish.description;
-    categoryController.text=widget.dish.category;
+    nameController.text = widget.dish.name;
+    priceController.text = widget.dish.price.toString();
+    descriptionController.text = widget.dish.description;
+    categoryController.text = widget.dish.category;
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.sizeOf(context);
@@ -143,7 +141,7 @@ class _ModifyDishScreenState extends State<ModifyDishScreen> {
                       borderRadius: BorderRadius.circular(10),
                     ),
                   ),
-                  child: Text("Add", style: TextStyle(color: white)),
+                  child: Text("Modify", style: TextStyle(color: white)),
                 ),
               ),
             ],
