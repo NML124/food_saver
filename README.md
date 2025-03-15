@@ -1,4 +1,4 @@
-# 🍽️ Food Rescue - Reducing Food Waste in India (ODD12)
+# 🍽️ Food Rescue - Reducing Food Waste in India (SDG12)
 
 ## 📌 Overview
 Food Rescue is an innovative platform connecting restaurants and supermarkets with charitable organizations to redistribute surplus food to those in need. If the food is spoiled, our system links these businesses with local farmers to transform waste into compost. 🌍♻️ 
