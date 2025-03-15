@@ -48,9 +48,14 @@ const paddingXXXLarge = 53.0;
 const double borderRadius = 15;
 
 ///Name of table
-const dish = "dish";
+const dishesTable = "dishes";
 const userTable = "users";
 
+///Name of stockage
+const dishesBucket = "dishes";
+
+///Name of document stored for dishes
+const dishesDocument = "dishes";
 
 //Images
 const String backgroundDishCard = 'assets/images/dish.png';

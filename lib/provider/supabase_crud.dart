@@ -309,20 +309,16 @@ class CRUD {
     FilePickerResult? result,
   ) async {
     try {
-      // Vérifiez si un fichier est sélectionné
+      // Verify if a file is selected
       if (result == null) {
-        print(
-          'Erreur lors de la sauvegarde du fichier : Aucun fichier sélectionné.',
-        );
+        print('Error when saving file: No file selected.');
         return null;
       }
       PlatformFile platformFile = result.files.single;
       // Créez l'objet fichier
       Uint8List? fileBytes = await _getFileBytes(platformFile);
       if (fileBytes == null) {
-        print(
-          "Erreur lors de la sauvegarde du fichier: Le fichier sélectionné n'existe pas.",
-        );
+        print("Error saving file: The selected file does not exist.");
         return null;
       }
 
@@ -344,8 +340,8 @@ class CRUD {
 
       if (publicUrl.isEmpty) {
         showNotification(
-          title: "Erreur",
-          body: "Impossible de récupérer l'URL publique.",
+          title: "Error",
+          body: "Unable to retrieve public URL.",
         );
         return null;
       }
@@ -353,18 +349,18 @@ class CRUD {
       return publicUrl;
     } on StorageException catch (e) {
       showNotification(
-        title: "Erreur",
-        body: "La base de données à un problème ${e.message}",
+        title: "Error",
+        body: "The database has a problem ${e.message}",
       );
       return null;
     } on FileSystemException catch (e) {
       showNotification(
-        title: "Erreur",
-        body: "Erreur système de fichier : ${e.message}",
+        title: "Error",
+        body: "File system error : ${e.message}",
       );
       return null;
     } catch (e) {
-      showNotification(title: "Erreur", body: "Une erreur inattendue : $e");
+      showNotification(title: "Error", body: "An unexpected mistake : $e");
       return null;
     }
   }
@@ -374,7 +370,7 @@ class CRUD {
     required String? oldFilePath,
   }) async {
     if (oldFilePath == null || oldFilePath.isEmpty) {
-      throw ArgumentError('Le chemin du fichier ne peut pas être nul ou vide.');
+      throw ArgumentError('The file path cannot be null or empty.');
     }
 
     try {

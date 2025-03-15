@@ -1,8 +1,14 @@
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:food_saver/model/dish_model.dart';
+import 'package:food_saver/provider/supabase_crud.dart';
 import 'package:food_saver/util/constant.dart';
+import 'package:food_saver/util/methods.dart';
+import 'package:food_saver/util/widgets/file_widget_picker.dart';
 import 'package:material_text_fields/material_text_fields.dart';
 import 'package:material_text_fields/utils/form_validation.dart';
+import 'package:uuid/uuid.dart';
 
 class AddDishScreen extends StatefulWidget {
   const AddDishScreen({super.key});
@@ -16,8 +22,13 @@ class _AddDishScreenState extends State<AddDishScreen> {
   TextEditingController priceController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
   TextEditingController categoryController = TextEditingController();
+  final crud = CRUD(table: dishesTable);
   String? selectedCategory;
+  String? fileName;
+  FilePickerResult? file;
   double heightMaterialUI = 90;
+  final formKey = GlobalKey<FormState>();
+  bool isLoading = false;
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.sizeOf(context);
@@ -27,117 +38,193 @@ class _AddDishScreenState extends State<AddDishScreen> {
       body: Padding(
         padding: const EdgeInsets.all(paddingNormal),
         child: SingleChildScrollView(
-          child: Column(
-            spacing: paddingSMedium,
-            children: [
-              InkWell(
-                onTap: () {},
-                child: Container(
-                  width: width,
-                  height: 250,
-                  color: Colors.amber,
-                ),
-              ),
-              SizedBox(
-                width: width,
-                height: heightMaterialUI,
-                child: MaterialTextField(
-                  keyboardType: TextInputType.text,
-                  labelText: 'Name',
-                  textInputAction: TextInputAction.next,
-                  controller: nameController,
-                  validator: FormValidation.requiredTextField,
-                ),
-              ),
-              SizedBox(
-                width: width,
-                height: heightMaterialUI,
-                child: MaterialTextField(
-                  keyboardType: TextInputType.number,
-                  labelText: 'Price',
-                  prefixIcon: Icon(Icons.currency_rupee_rounded),
-                  textInputAction: TextInputAction.next,
-                  controller: priceController,
-                  validator: FormValidation.requiredTextField,
-                ),
-              ),
-              SizedBox(
-                width: width * 0.9,
-                child: DropdownButtonFormField<String>(
-                  dropdownColor: white,
-                  focusColor: white,
-                  value: selectedCategory,
-                  validator: (value) {
-                    return (value == "" || value == null)
-                        ? "This field cannot be empty"
-                        : null;
+          child: Form(
+            key: formKey,
+            child: Column(
+              spacing: paddingSMedium,
+              children: [
+                FileWidgetForm(
+                  title: "Dish picture",
+                  fileName: fileName,
+                  widthScreen: size.width,
+                  heightScreen: size.height,
+                  onSelectedFile: (filePickerResult, name) {
+                    fileName = name;
+                    file = filePickerResult;
+                    setState(() {});
                   },
-                  hint: const AutoSizeText(
-                    "Category",
-                    maxLines: 1,
-                    style: TextStyle(fontSize: textSizeLargeMedium),
+                ),
+                SizedBox(
+                  width: width,
+                  height: heightMaterialUI,
+                  child: MaterialTextField(
+                    keyboardType: TextInputType.text,
+                    labelText: 'Name',
+                    textInputAction: TextInputAction.next,
+                    controller: nameController,
+                    validator: FormValidation.requiredTextField,
                   ),
-                  items:
-                      ["Beverage", "Dinner", "BreakFast"].map((type) {
-                        return DropdownMenuItem<String>(
-                          value: type,
-                          child: SizedBox(
-                            width: width * 0.75,
-                            child: AutoSizeText(
-                              type,
-                              maxLines: 1,
-                              style: const TextStyle(
-                                fontSize: textSizeLargeMedium,
+                ),
+                SizedBox(
+                  width: width,
+                  height: heightMaterialUI,
+                  child: MaterialTextField(
+                    keyboardType: TextInputType.number,
+                    labelText: 'Price',
+                    prefixIcon: Icon(Icons.currency_rupee_rounded),
+                    textInputAction: TextInputAction.next,
+                    controller: priceController,
+                    validator: FormValidation.requiredTextField,
+                  ),
+                ),
+                SizedBox(
+                  width: width * 0.9,
+                  child: DropdownButtonFormField<String>(
+                    dropdownColor: white,
+                    focusColor: white,
+                    value: selectedCategory,
+                    validator: (value) {
+                      return (value == "" || value == null)
+                          ? "This field cannot be empty"
+                          : null;
+                    },
+                    hint: const AutoSizeText(
+                      "Category",
+                      maxLines: 1,
+                      style: TextStyle(fontSize: textSizeLargeMedium),
+                    ),
+                    items:
+                        ["Beverage", "Dinner", "BreakFast"].map((type) {
+                          return DropdownMenuItem<String>(
+                            value: type,
+                            child: SizedBox(
+                              width: width * 0.75,
+                              child: AutoSizeText(
+                                type,
+                                maxLines: 1,
+                                style: const TextStyle(
+                                  fontSize: textSizeLargeMedium,
+                                ),
+                                overflow: TextOverflow.ellipsis,
                               ),
-                              overflow: TextOverflow.ellipsis,
                             ),
-                          ),
-                        );
-                      }).toList(),
-                  onChanged: (text) {},
-                  decoration: const InputDecoration(
-                    fillColor: white,
-                    border: OutlineInputBorder(borderSide: BorderSide.none),
-                  ),
-                  icon: const Icon(
-                    Icons.arrow_drop_down_rounded,
-                    color: Colors.blue,
-                    size: 30,
-                  ),
-                ),
-              ),
-              SizedBox(
-                width: width,
-                height: heightMaterialUI,
-                child: MaterialTextField(
-                  keyboardType: TextInputType.number,
-                  labelText: 'Description',
-                  maxLines: 3,
-                  prefixIcon: Icon(Icons.text_format),
-
-                  textInputAction: TextInputAction.next,
-                  controller: descriptionController,
-                  validator: FormValidation.requiredTextField,
-                ),
-              ),
-
-              SizedBox(
-                width: width,
-                child: ElevatedButton(
-                  onPressed: () {},
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: primary,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
+                          );
+                        }).toList(),
+                    onChanged: (text) {
+                      selectedCategory = text;
+                    },
+                    decoration: const InputDecoration(
+                      fillColor: white,
+                      border: OutlineInputBorder(borderSide: BorderSide.none),
+                    ),
+                    icon: const Icon(
+                      Icons.arrow_drop_down_rounded,
+                      color: Colors.blue,
+                      size: 30,
                     ),
                   ),
-                  child: Text("Add", style: TextStyle(color: white)),
                 ),
-              ),
-            ],
+                SizedBox(
+                  width: width,
+                  height: heightMaterialUI,
+                  child: MaterialTextField(
+                    keyboardType: TextInputType.number,
+                    labelText: 'Description',
+                    maxLines: 3,
+                    prefixIcon: Icon(Icons.text_format),
+
+                    textInputAction: TextInputAction.next,
+                    controller: descriptionController,
+                    validator: FormValidation.requiredTextField,
+                  ),
+                ),
+
+                isLoading
+                    ? loadingUploadFile(size: 30)
+                    : SizedBox(
+                      width: width,
+                      child: ElevatedButton(
+                        onPressed: () async {
+                          setState(() {
+                            isLoading = true;
+                          });
+                          await addDish(context);
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: primary,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                        ),
+                        child: Text("Add", style: TextStyle(color: white)),
+                      ),
+                    ),
+              ],
+            ),
           ),
         ),
       ),
     );
+  }
+
+  Future<void> addDish(BuildContext context) async {
+    const uuid = Uuid();
+    final idDocument = uuid.v4();
+    if (formKey.currentState!.validate()) {
+      try {
+        String? path = await crud.uploadFile(
+          dishesBucket,
+          idDocument,
+          dishesDocument,
+          file,
+        );
+        if (path != null) {
+          DishModel model = DishModel(
+            image: path,
+            name: fileName!,
+            price: double.parse(priceController.text),
+            description: descriptionController.text,
+            category: selectedCategory!,
+          );
+
+          final data = model.toMap();
+
+          await crud.create(data);
+
+          showNotification(
+            title: "Message",
+            body: "The dish was successfully created😋",
+            isError: false,
+          );
+          setState(() {
+            isLoading = false;
+          });
+          resetValue();
+        } else {
+          setState(() {
+            isLoading = false;
+          });
+          showNotification(
+            title: "Add file",
+            body: "The file you're trying to add already exists",
+          );
+        }
+      } catch (e) {
+        setState(() {
+          isLoading = false;
+        });
+        showNotification(title: "Add file", body: "Data logging error: $e");
+      }
+    }
+  }
+
+  void resetValue() {
+    nameController.text = "";
+    priceController.text = "";
+    descriptionController.text = "";
+    categoryController.text = "";
+    selectedCategory = null;
+    file = null;
+    fileName = null;
   }
 }

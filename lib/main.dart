@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:food_saver/home_screen.dart';
 import 'package:food_saver/model/customer_model.dart';
 import 'package:food_saver/screens/customer/home_customer.dart';
 import 'package:food_saver/util/env.dart';
@@ -6,13 +7,10 @@ import 'package:get/get.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:toastification/toastification.dart';
 
-void main() async{
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  await  Supabase.initialize(
-    url: SUPABASE_URL,
-    anonKey: SUPABASE_ANON_KEY,
-  );
+  await Supabase.initialize(url: SUPABASE_URL, anonKey: SUPABASE_ANON_KEY);
   runApp(const MyApp());
 }
 
@@ -44,16 +42,8 @@ class MyApp extends StatelessWidget {
             // tested with just a hot reload.
             colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           ),
-      
-          home: HomeCustomer(
-            customer: CustomerModel(
-              id: 1,
-              name: "name",
-              localisation: "localisation",
-              image: "image",
-              phoneNumber: "phoneNumber",
-            ),
-          ),
+
+          home: HomeScreen(),
           /*
           home: HomeSellerScreen(
             seller: SellerModel(
