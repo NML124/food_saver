@@ -22,6 +22,7 @@ class _AddDishScreenState extends State<AddDishScreen> {
   TextEditingController priceController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
   TextEditingController categoryController = TextEditingController();
+  TextEditingController quantityController = TextEditingController();
   final crud = CRUD(table: dishesTable);
   String? selectedCategory;
   String? fileName;
@@ -34,7 +35,7 @@ class _AddDishScreenState extends State<AddDishScreen> {
     Size size = MediaQuery.sizeOf(context);
     double width = size.width;
     return Scaffold(
-      appBar: AppBar(title: Text("Add a dish")),
+      appBar: AppBar(title: Text("Add a product")),
       body: Padding(
         padding: const EdgeInsets.all(paddingNormal),
         child: SingleChildScrollView(
@@ -44,7 +45,7 @@ class _AddDishScreenState extends State<AddDishScreen> {
               spacing: paddingSMedium,
               children: [
                 FileWidgetForm(
-                  title: "Dish picture",
+                  title: "Product picture",
                   fileName: fileName,
                   widthScreen: size.width,
                   heightScreen: size.height,
@@ -78,6 +79,18 @@ class _AddDishScreenState extends State<AddDishScreen> {
                   ),
                 ),
                 SizedBox(
+                  width: width,
+                  height: heightMaterialUI,
+                  child: MaterialTextField(
+                    keyboardType: TextInputType.number,
+                    labelText: 'Quantity',
+                    prefixIcon: Icon(Icons.onetwothree_rounded),
+                    textInputAction: TextInputAction.next,
+                    controller: quantityController,
+                    validator: FormValidation.requiredTextField,
+                  ),
+                ),
+                SizedBox(
                   width: width * 0.9,
                   child: DropdownButtonFormField<String>(
                     dropdownColor: white,
@@ -94,7 +107,9 @@ class _AddDishScreenState extends State<AddDishScreen> {
                       style: TextStyle(fontSize: textSizeLargeMedium),
                     ),
                     items:
-                        ["Beverage", "Dinner", "BreakFast"].map((type) {
+                        ["Plastic", "Electronic", "Furniture", "Cloth"].map((
+                          type,
+                        ) {
                           return DropdownMenuItem<String>(
                             value: type,
                             child: SizedBox(
@@ -148,7 +163,7 @@ class _AddDishScreenState extends State<AddDishScreen> {
                           setState(() {
                             isLoading = true;
                           });
-                          await addDish(context);
+                          await addProduct(context);
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: primary,
@@ -167,7 +182,7 @@ class _AddDishScreenState extends State<AddDishScreen> {
     );
   }
 
-  Future<void> addDish(BuildContext context) async {
+  Future<void> addProduct(BuildContext context) async {
     const uuid = Uuid();
     final idDocument = uuid.v4();
     if (formKey.currentState!.validate()) {
@@ -181,19 +196,19 @@ class _AddDishScreenState extends State<AddDishScreen> {
         if (path != null) {
           DishModel model = DishModel(
             image: path,
-            name: fileName!,
+            name: nameController.text,
             price: double.parse(priceController.text),
             description: descriptionController.text,
             category: selectedCategory!,
+            quantity: int.parse(quantityController.text),
           );
 
           final data = model.toMap();
-
           await crud.create(data);
 
           showNotification(
             title: "Message",
-            body: "The dish was successfully created😋",
+            body: "The product was successfully created💫",
             isError: false,
           );
           setState(() {
@@ -205,15 +220,15 @@ class _AddDishScreenState extends State<AddDishScreen> {
             isLoading = false;
           });
           showNotification(
-            title: "Add file",
-            body: "The file you're trying to add already exists",
+            title: "Add picture",
+            body: "The picture you're trying to add already exists",
           );
         }
       } catch (e) {
         setState(() {
           isLoading = false;
         });
-        showNotification(title: "Add file", body: "Data logging error: $e");
+        showNotification(title: "Add picture", body: "Data logging error: $e");
       }
     }
   }
@@ -223,6 +238,7 @@ class _AddDishScreenState extends State<AddDishScreen> {
     priceController.text = "";
     descriptionController.text = "";
     categoryController.text = "";
+    quantityController.text = "";
     selectedCategory = null;
     file = null;
     fileName = null;

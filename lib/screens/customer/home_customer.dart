@@ -82,6 +82,7 @@ class _HomeCustomerState extends State<HomeCustomer> {
                       price: 5,
                       description: "description",
                       category: "beverage",
+                      quantity: 1
                     ),
                   );
                 },

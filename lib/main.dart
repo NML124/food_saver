@@ -22,8 +22,10 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return ToastificationWrapper(
       child: GetMaterialApp(
+        debugShowCheckedModeBanner: false,
         home: MaterialApp(
-          title: 'Food saver',
+          debugShowCheckedModeBanner: false,
+          title: 'Up Cycling',
           theme: ThemeData(
             // This is the theme of your application.
             //

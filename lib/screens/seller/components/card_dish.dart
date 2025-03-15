@@ -20,7 +20,11 @@ class CardDish extends StatelessWidget {
           children: [
             Row(
               children: [
-                Container(width: 30, height: 30, color: Colors.green),
+                SizedBox(
+                  width: 30,
+                  height: 30,
+                  child: Image.network(dish.image, fit: BoxFit.contain),
+                ),
                 SizedBox(width: 20),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,

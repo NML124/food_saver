@@ -1,7 +1,9 @@
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:food_saver/util/constant.dart';
 import 'package:food_saver/model/dish_model.dart';
+import 'package:food_saver/util/widgets/file_widget_picker.dart';
 import 'package:material_text_fields/material_text_fields.dart';
 import 'package:material_text_fields/utils/form_validation.dart';
 
@@ -16,7 +18,9 @@ class _ModifyDishScreenState extends State<ModifyDishScreen> {
   TextEditingController nameController = TextEditingController();
   TextEditingController priceController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
-  TextEditingController categoryController = TextEditingController();
+  TextEditingController quantityController = TextEditingController();
+  String? fileName;
+  FilePickerResult? file;
   String? selectedCategory;
   double heightMaterialUI = 90;
   @override
@@ -24,7 +28,9 @@ class _ModifyDishScreenState extends State<ModifyDishScreen> {
     nameController.text = widget.dish.name;
     priceController.text = widget.dish.price.toString();
     descriptionController.text = widget.dish.description;
-    categoryController.text = widget.dish.category;
+    quantityController.text = widget.dish.quantity.toString();
+    selectedCategory = widget.dish.category;
+    fileName = widget.dish.name;
     super.initState();
   }
 
@@ -40,13 +46,16 @@ class _ModifyDishScreenState extends State<ModifyDishScreen> {
           child: Column(
             spacing: paddingSMedium,
             children: [
-              InkWell(
-                onTap: () {},
-                child: Container(
-                  width: width,
-                  height: 250,
-                  color: Colors.amber,
-                ),
+              FileWidgetForm(
+                title: "Dish picture",
+                fileName: fileName,
+                widthScreen: size.width,
+                heightScreen: size.height,
+                onSelectedFile: (filePickerResult, name) {
+                  fileName = name;
+                  file = filePickerResult;
+                  setState(() {});
+                },
               ),
               SizedBox(
                 width: width,
@@ -68,6 +77,18 @@ class _ModifyDishScreenState extends State<ModifyDishScreen> {
                   prefixIcon: Icon(Icons.currency_rupee_rounded),
                   textInputAction: TextInputAction.next,
                   controller: priceController,
+                  validator: FormValidation.requiredTextField,
+                ),
+              ),
+              SizedBox(
+                width: width,
+                height: heightMaterialUI,
+                child: MaterialTextField(
+                  keyboardType: TextInputType.number,
+                  labelText: 'Quantity',
+                  prefixIcon: Icon(Icons.onetwothree_rounded),
+                  textInputAction: TextInputAction.next,
+                  controller: quantityController,
                   validator: FormValidation.requiredTextField,
                 ),
               ),

@@ -5,6 +5,7 @@ class DishModel {
   String description;
   String category;
   String sellerdId;
+  int quantity;
 
   DishModel({
     required this.image,
@@ -12,6 +13,7 @@ class DishModel {
     required this.price,
     required this.description,
     required this.category,
+    required this.quantity,
     this.sellerdId = "",
   });
 
@@ -19,10 +21,11 @@ class DishModel {
     return DishModel(
       image: map['image'],
       name: map['name'],
-      price: map['price'],
+      price: double.parse(map['price'].toString()),
       description: map['description'],
       category: map['category'],
       sellerdId: map['seller_id'],
+      quantity: map['quantity'] ?? 1,
     );
   }
 
@@ -34,6 +37,11 @@ class DishModel {
       'description': description,
       'category': category,
       'seller_id': sellerdId,
+      'quantity': quantity,
     };
+  }
+
+  static List<DishModel> fromList(var data) {
+    return List<DishModel>.from(data.map((json) => DishModel.fromMap(json)));
   }
 }
