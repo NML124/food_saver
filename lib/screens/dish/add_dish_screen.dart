@@ -107,9 +107,13 @@ class _AddDishScreenState extends State<AddDishScreen> {
                       style: TextStyle(fontSize: textSizeLargeMedium),
                     ),
                     items:
-                        ["Plastic", "Electronic", "Furniture", "Cloth"].map((
-                          type,
-                        ) {
+                        [
+                          "Plastic",
+                          "Electronic",
+                          "Furniture",
+                          "Cloth",
+                          "other",
+                        ].map((type) {
                           return DropdownMenuItem<String>(
                             value: type,
                             child: SizedBox(

@@ -17,7 +17,7 @@ class FoodCard extends StatelessWidget {
           ClipRRect(
             borderRadius: const BorderRadius.vertical(top: Radius.circular(15)),
             child: Image.network(
-              "https://th.bing.com/th/id/OIP.6wDj0ZeAkeDeTxLcIdNHxwHaHM?rs=1&pid=ImgDetMain",
+              dish.image,
               height: 120,
               width: double.infinity,
               fit: BoxFit.cover,

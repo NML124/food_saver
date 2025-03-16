@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:food_saver/model/customer_model.dart';
 import 'package:food_saver/model/seller_model.dart';
+import 'package:food_saver/screens/customer/home_customer.dart';
 import 'package:food_saver/screens/dish/add_dish_screen.dart';
 import 'package:food_saver/screens/seller/home_seller.dart';
 import 'package:food_saver/util/constant.dart';
@@ -19,8 +21,8 @@ class _HomeScreenState extends State<HomeScreen> {
   );
   List<Widget> _buildScreens() {
     return [
-      HomeSellerScreen(
-        seller: SellerModel(
+      HomeCustomer(
+        customer: CustomerModel(
           id: 1,
           name: "RSET",
           localisation: "loc",
@@ -38,19 +40,19 @@ class _HomeScreenState extends State<HomeScreen> {
       PersistentBottomNavBarItem(
         icon: Icon(CupertinoIcons.home),
         title: ("Home"),
-        activeColorPrimary: CupertinoColors.activeBlue,
+        activeColorPrimary: primary,
         inactiveColorPrimary: CupertinoColors.systemGrey,
       ),
       PersistentBottomNavBarItem(
         icon: Icon(CupertinoIcons.plus, color: white),
-        title: ("Add dish"),
-        activeColorPrimary: CupertinoColors.activeBlue,
+        title: ("Add Product"),
+        activeColorPrimary: primary,
         inactiveColorPrimary: CupertinoColors.systemGrey,
       ),
       PersistentBottomNavBarItem(
         icon: Icon(Icons.receipt),
         title: ("Orders"),
-        activeColorPrimary: CupertinoColors.activeBlue,
+        activeColorPrimary: primary,
         inactiveColorPrimary: CupertinoColors.systemGrey,
       ),
     ];

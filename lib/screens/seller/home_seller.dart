@@ -18,7 +18,6 @@ class _HomeSellerScreenState extends State<HomeSellerScreen> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.sizeOf(context);
-    double width = size.width;
     List<DishModel> dishes = [];
     final Stream<List<Map<String, dynamic>>> dishStream = CRUD(
       table: dishesTable,
@@ -47,18 +46,47 @@ class _HomeSellerScreenState extends State<HomeSellerScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   spacing: 5,
                   children: [
-                    Text("Welcome,${widget.seller.name}"),
+                    RichText(
+                      text: TextSpan(
+                        children: [
+                          TextSpan(
+                            text: "Welcome, ",
+                            style: TextStyle(color: Colors.grey),
+                          ),
+                          TextSpan(
+                            text: widget.seller.name,
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: textSizeNormal,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
                     Divider(color: Colors.grey, thickness: 1),
                     Row(
                       children: [
-                        Text(
-                          "${dishes.length}",
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
+                        RichText(
+                          text: TextSpan(
+                            children: [
+                              TextSpan(
+                                text: "${dishes.length}",
+                                style: TextStyle(
+                                  fontSize: textSizeLarge,
+                                  color: primary,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              TextSpan(
+                                text: " products available for delivery",
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  color: Colors.grey,
+                                ),
+                              ),
+                            ],
                           ),
                         ),
-                        Text(" products available for delivery"),
                       ],
                     ),
                     /*  Padding(
@@ -74,23 +102,20 @@ class _HomeSellerScreenState extends State<HomeSellerScreen> {
                         color: Colors.green,
                       ),
                     ),*/
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        spacing: paddingMedium,
-                        children: [
-                          Text("Products currently available"),
-                          SizedBox(
-                            height: 200,
-                            child: ListView.builder(
-                              itemCount: dishes.length,
-                              itemBuilder: (context, index) {
-                                return CardDish(dish: dishes[index]);
-                              },
-                            ),
-                          ),
-                        ],
+                    SizedBox(height: paddingSmall),
+                    Text(
+                      "Products currently available",
+                      style: TextStyle(
+                        color: black,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Expanded(
+                      child: ListView.builder(
+                        itemCount: dishes.length,
+                        itemBuilder: (context, index) {
+                          return CardDish(dish: dishes[index]);
+                        },
                       ),
                     ),
                   ],
